@@ -2,31 +2,33 @@
 
 #define DELAY 100
 #define MOTION_PENALTY 1000
+#define SOUND_PENALTY 500
+#define TEMP_PENALTY 250
 
 int motionPin = 2;
 int soundPin = A0;
 int tempPin = 0x48; // pin 4 (SDA) and 5 (SCL)
 
 double motionAve = 1; // 1 is empty room
-double soundAve = null;
-double tempAve = null;
+double soundAve = 9.872; // 9.872 is quite room
+double tempAve = 25; // 25 celcious is room temp
 
-int timeNow = null;
+int timeNow = 0;
 
 
 
-void setup(){
+void setup() {
   Serial.begin(9600);
   Wire.begin(); 
   
   pinMode(motionPin, INPUT);
   pinMode(soundPin, INPUT);
   
-  timeNow = millis()
+  timeNow = millis();
 }
 
 
-void loop(){
+void loop() {
   
   if ((millis() - timeNow) >= DELAY) {
     // get vals
@@ -36,16 +38,16 @@ void loop(){
     
     // update aves
     motionAve = (motionVal + (MOTION_PENALTY * motionAve)) / (MOTION_PENALTY + 1);
-    // update soundAve
-    // update tempAve
+    soundAve = (soundVal + (SOUND_PENALTY * soundAve)) / (SOUND_PENALTY + 1);
+    tempAve = (tempVal + (TEMP_PENALTY * tempAve)) / (TEMP_PENALTY + 1);
     
     // print
     Serial.println(motionAve);
-    // Serial.println(soundAve);
-    // Serial.println(tempAve);
+    Serial.println(soundAve);
+    Serial.println(tempAve);
     
     // update time
-    timeNow = millis()
+    timeNow = millis();
   }
   
 }
