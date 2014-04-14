@@ -10,17 +10,12 @@
 
   <body>
     <script>
-        $.get( "http://192.168.1.177/", function() {
-            console.log( "success" );
-        })
-        .done(function() {
-            console.log( "second success" );
+        $.get( "http://192.168.1.177/")
+        .done(function(data) {
+            console.log( data.temperature, data.motion, data.sound );
         })
         .fail(function() {
             console.log( "error" );
-        })
-        .always(function() {
-            console.log( "finished" );
         });
     </script>
   </body>
