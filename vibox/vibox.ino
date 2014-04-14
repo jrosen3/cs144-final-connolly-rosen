@@ -7,7 +7,7 @@
 
 int motionPin = 2;
 int soundPin = A0;
-int tempPin = 0x48; // pin 4 (SDA) and 5 (SCL)
+int tempPin = 0x48; // pin A4 (SDA) and A5 (SCL)
 
 double motionAve = 1; // 1 is empty room
 double soundAve = 9.872; // 9.872 is quite room
