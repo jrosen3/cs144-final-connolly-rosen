@@ -3,8 +3,9 @@
 #include <Ethernet.h>
 
 #define DELAY 0
+#define PRINT_DELAY 500
 #define MOTION_PENALTY 1000
-#define SOUND_PENALTY 10
+#define SOUND_PENALTY 100
 #define TEMP_PENALTY 250
 
 int motionPin = 2;
@@ -15,8 +16,8 @@ double motionAve = 0; // 0 is empty room
 double soundAve = 0; // 0 is a quiet room
 double tempAve = 25; // 25 Celcius is room temp
 
-int timeNow = 0;
-int timeNow2 = 0;
+int timeNow1 = 0; // loop delay
+int timeNow2 = 0; // print delay
 
 // Enter a MAC address and IP address for your controller below.
 // The IP address will be dependent on your local network:
@@ -37,7 +38,7 @@ void setup() {
   pinMode(motionPin, INPUT);
   pinMode(soundPin, INPUT);
   
-  timeNow = millis();
+  timeNow1 = millis();
   timeNow2 = millis();
   
   // start the Ethernet connection and the server:
@@ -60,17 +61,16 @@ void loop() {
     if (soundVal > 0) {
       soundAve = (soundVal + (SOUND_PENALTY * soundAve)) / (SOUND_PENALTY + 1);
     } else {
-      soundAve = (0 + ((SOUND_PENALTY * 5) * soundAve)) / ((SOUND_PENALTY * 5) + 1);
+      soundAve = (0 + ((SOUND_PENALTY * 250) * soundAve)) / ((SOUND_PENALTY * 250) + 1);
     }
     tempAve = (tempVal + (TEMP_PENALTY * tempAve)) / (TEMP_PENALTY + 1);
     
     // print
-    if(millis() - timeNow > 500) {
+    if(millis() - timeNow1 > PRINT_DELAY) {
       Serial.println(motionAve);
       Serial.println(soundAve);
       Serial.println(tempAve);
-      // update time
-      timeNow = millis();
+      timeNow1 = millis();
     }
    
     timeNow2 = millis();
