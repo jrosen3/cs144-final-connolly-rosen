@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Galileo Test</title>
+    <meta charset="UTF-8" />
+
+    <!-- jquery -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <script>
+        $.get( "http://192.168.1.177/", function() {
+            console.log( "success" );
+        })
+        .done(function() {
+            console.log( "second success" );
+        })
+        .fail(function() {
+            console.log( "error" );
+        })
+        .always(function() {
+            console.log( "finished" );
+        });
+    </script>
+  </body>
+</html>
