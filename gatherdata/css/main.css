@@ -1,0 +1,48 @@
+body {
+	text-align: center;
+	font-family: Helvetica, sans-serif;
+	background-image: url('../img/brushed/brushed.png');
+}
+
+h1 {
+	font-size: 500%;
+}
+
+h2 {
+	font-size: 250%;
+}
+
+h3 {
+	font-size: 100%;
+}
+
+.title {
+	margin: 10vh 0vw 0vh 0vw;
+}
+
+.subtitle {
+	margin: .5vh 0vw 5vh 0vw;
+}
+
+#range {
+	margin: 2vh auto 0vh auto;
+	width: 50vw;
+}
+
+.vs {
+	font-weight: bolder;
+}
+
+#submit {
+	margin: 2vh auto 0vh auto;
+	width: 100px;
+	height: 10px;
+	border-radius: 3px;
+	padding: 20px;
+	background-color: #000;
+	color: #fff;
+}
+
+#submit:hover {
+	cursor: pointer;
+}
