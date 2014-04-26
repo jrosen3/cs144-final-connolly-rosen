@@ -142,3 +142,26 @@ float getTemperature(int tp){
   double celsius = TemperatureSum * 0.0625;
   return celsius;
 }
+
+int calcVibeScore(float temp, float sound, float motion) {
+  double c0[3] = {-0.0279306972, -7.98754506, -2.19056361};
+  double c1[3] = {-0.334152875, -2.75034960, -0.922019856};
+  double c2[3] = {-0.150315079, 0.127898134, -1.47427606};
+  double c3[3] = {0.514941983, 5.06378566, -1.26382185};
+  double c4[3] = {-0.802725327, 0.334113159, 2.74354896};
+  
+  double* ca[] = {c0, c1, c2, c3, c4};
+  
+  double in[] = {2.69007718, 5.26042703, 1.74654135, -15.94263692, -19.00936246};
+  
+  int p = -1000000;
+  int cls = -1;
+  for(int i = 0; i++, i<5;) {
+    int tp = in[i] + (ca[i][0]*temp) + (ca[i][1]*sound) + (ca[i][2]*motion);
+    if(tp > p) {
+      p = tp;
+      cls = i;
+    }
+  }
+  return cls;
+}
