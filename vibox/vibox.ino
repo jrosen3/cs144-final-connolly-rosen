@@ -67,9 +67,15 @@ void loop() {
     
     // print
     if(millis() - timeNow1 > PRINT_DELAY) {
+      Serial.print("M: ");
       Serial.println(motionAve);
+      Serial.print("S: ");
       Serial.println(soundAve);
+      Serial.print("T: ");
       Serial.println(tempAve);
+      Serial.print("Cluster: ");
+      Serial.println(calcVibeScore(tempAve, soundAve, motionAve));
+      Serial.println();
       timeNow1 = millis();
     }
    
@@ -163,8 +169,9 @@ int calcVibeScore(double temp, double sound, double motion) {
   
   double* ca[] = {c0, c1, c2, c3, c4};
   
-  //double in[] = {2.69007718, 5.26042703, 1.74654135, -15.94263692, -19.00936246};
-  double in[] = {22.424, .269, 17.569, -50.811, -1.625};
+//  double in[] = {2.69007718, 5.26042703, 1.74654135, -15.94263692, -19.00936246};
+//  double in[] = {22.424, .269, 17.569, -50.811, -1.625};
+  double in[] = {29.424, .19, 17.569, -55.811, -1.625};
   
   int p = -1000000;
   int cls = -1;
