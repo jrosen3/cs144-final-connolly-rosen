@@ -1,4 +1,5 @@
-README.txt
+Vibox
+Brian Connolly and Jared Rosen
 
 Our repository has four subdirectories: gatherdata, data, vibox, and website.
 
