@@ -67,9 +67,15 @@ void loop() {
     
     // print
     if(millis() - timeNow1 > PRINT_DELAY) {
+      Serial.print("M: ");
       Serial.println(motionAve);
+      Serial.print("S: ");
       Serial.println(soundAve);
+      Serial.print("T: ");
       Serial.println(tempAve);
+      Serial.print("Cluster: ");
+      Serial.println(calcVibeScore(tempAve, soundAve, motionAve));
+      Serial.println();
       timeNow1 = millis();
     }
    
@@ -108,6 +114,10 @@ void loop() {
           
           client.print("\"sound\":");
           client.print(soundAve);
+          client.println(",");
+          
+          client.print("\"vibecluster\":");
+          client.print(calcVibeScore(tempAve, soundAve, motionAve));
           client.println("}");
           break;
         }
@@ -141,4 +151,36 @@ float getTemperature(int tp){
 
   double celsius = TemperatureSum * 0.0625;
   return celsius;
+}
+
+int calcVibeScore(double temp, double sound, double motion) {
+  /*
+  double c0[3] = {-0.0279306972, -7.98754506, -2.19056361};
+  double c1[3] = {-0.334152875, -2.75034960, -0.922019856};
+  double c2[3] = {-0.150315079, 0.127898134, -1.47427606};
+  double c3[3] = {0.514941983, 5.06378566, -1.26382185};
+  double c4[3] = {-0.802725327, 0.334113159, 2.74354896};
+  */
+  double c0[3] = {-1.0345, -4.2333, -.4778};
+  double c1[3] = {-0.088, 4.357, -.6339};
+  double c2[3] = {-1.475, 28.122, -1.4508};
+  double c3[3] = {2.0739, 11.311, -2.369};
+  double c4[3] = {-.328, -16.126, 3.777};
+  
+  double* ca[] = {c0, c1, c2, c3, c4};
+  
+//  double in[] = {2.69007718, 5.26042703, 1.74654135, -15.94263692, -19.00936246};
+//  double in[] = {22.424, .269, 17.569, -50.811, -1.625};
+  double in[] = {29.424, .19, 17.569, -55.811, -1.625};
+  
+  int p = -1000000;
+  int cls = -1;
+  for(int i = 0; i++, i<5;) {
+    int tp = in[i] + (ca[i][0]*temp) + (ca[i][1]*sound) + (ca[i][2]*motion);
+    if(tp > p) {
+      p = tp;
+      cls = i;
+    }
+  }
+  return cls;
 }
